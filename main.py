@@ -1,21 +1,32 @@
-"""Shellhavn, the drowned harbour: hand the finished poster to the grader."""
+"""Deliver the Shellhavn artwork to the grading harness."""
 import os
 import shutil
-from pathlib import Path
+import sys
 
-REPO = Path(__file__).resolve().parent
-POSTER = REPO / "poster.png"
-TARGET_DIR = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-TARGET = TARGET_DIR / "entry.png"
-IMAGE_SUFFIX = ".png"
-IMAGE_IS_OPAQUE = True
+SOURCE_NAME = "poster.png"
+OUTPUT_NAME = "entry.png"
 
 
-def render() -> None:
-    """Place the rendered poster at the path the harness reads."""
-    TARGET_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(POSTER, TARGET)
+def output_folder() -> str:
+    """Return the directory the harness collects the entry from."""
+    return os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+
+
+def deliver(artwork: str, folder: str) -> None:
+    """Copy the artwork into the folder as the entry image."""
+    os.makedirs(folder, exist_ok=True)
+    shutil.copyfile(artwork, os.path.join(folder, OUTPUT_NAME))
+
+
+def run() -> int:
+    """Place the poster and report the size written."""
+    home = os.path.dirname(os.path.abspath(__file__))
+    folder = output_folder()
+    deliver(os.path.join(home, SOURCE_NAME), folder)
+    written = os.path.join(folder, OUTPUT_NAME)
+    sys.stderr.write("wrote %s (%d bytes)\n" % (written, os.path.getsize(written)))
+    return 0
 
 
 if __name__ == "__main__":
-    render()
+    raise SystemExit(run())
