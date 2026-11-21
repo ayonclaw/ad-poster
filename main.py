@@ -1,19 +1,17 @@
-"""Hand the Shellhavn poster to the grader as /output/entry.png."""
+"""Shellhavn entry: copy the poster to /output/entry.png."""
 import os
 import shutil
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-OUTDIR = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-ARTWORK = "poster.png"
-ENTRY = "entry.png"
+ART = "poster.png"
+TARGET = os.path.join(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"), "entry.png")
 
 
-def publish() -> None:
-    """Copy the rendered artwork into the output directory as the entry image."""
-    OUTDIR.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(ROOT / ARTWORK, OUTDIR / ENTRY)
+def ship() -> None:
+    """Place the finished poster where the harness reads the entry."""
+    folder = os.path.dirname(TARGET)
+    if folder:
+        os.makedirs(folder, exist_ok=True)
+    shutil.copyfile(ART, TARGET)
 
 
-if __name__ == "__main__":
-    publish()
+ship()
