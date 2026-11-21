@@ -1,22 +1,20 @@
-"""Write the Shellhavn travel poster to /output/entry.png."""
+"""Shellhavn: place the finished travel poster where the grader looks."""
 import os
 import shutil
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent
-POSTER = REPO / "poster.png"
-TARGET_DIR = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-TARGET = TARGET_DIR / "entry.png"
-# The poster is a finished render: this program only places it.
-POSTER_BYTES = 466167
-TARGET_NAME = "entry.png"
+HERE = Path(__file__).resolve().parent
+DESTINATION = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")) / "entry.png"
+FORMAT = "png"
+PIXELS = 1024
+NOTE = "one finished poster, no network, no build step"
 
 
-def render() -> None:
-    """Place the rendered poster at the path the harness reads."""
-    TARGET_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(POSTER, TARGET_DIR / TARGET_NAME)
+def emit() -> None:
+    """Copy the poster drawn beside this program to the output path."""
+    DESTINATION.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(HERE / "poster.png", DESTINATION)
 
 
 if __name__ == "__main__":
-    render()
+    emit()
