@@ -8,6 +8,8 @@ DESTINATION = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")) / "entry.png
 FORMAT = "png"
 PIXELS = 1024
 NOTE = "one finished poster, no network, no build step"
+POSTER_NAME = "poster.png"
+OUTPUT_NAME = "entry.png"
 
 
 def emit() -> None:
