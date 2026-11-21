@@ -4,12 +4,12 @@ import shutil
 import sys
 
 SOURCE_NAME = "poster.png"
-OUTPUT_NAME = "entry.png"
+OUTPUT_NAME = "entry.png"  # collected by the harness
 
 
 def output_folder() -> str:
     """Return the directory the harness collects the entry from."""
-    return os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    return os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
 
 
 def deliver(artwork: str, folder: str) -> None:
